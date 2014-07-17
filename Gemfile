@@ -69,6 +69,7 @@ group :ldap do
   gem "devise_ldap_authenticatable", :git => "https://github.com/cschiewek/devise_ldap_authenticatable.git"
 end
 gem 'carrierwave'
+gem 'jquery-fileupload-rails'
 
 group :development do
   gem 'bullet'
