@@ -68,6 +68,7 @@ group :ldap do
   gem "net-ldap" , '~> 0.3.1'
   gem "devise_ldap_authenticatable", :git => "https://github.com/cschiewek/devise_ldap_authenticatable.git"
 end
+gem 'carrierwave'
 
 group :development do
   gem 'bullet'
