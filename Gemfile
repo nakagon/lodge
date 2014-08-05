@@ -70,7 +70,6 @@ group :ldap do
 end
 gem 'carrierwave'
 gem 'jquery-fileupload-rails'
-gem 'jquery-turbolinks'
 
 group :development do
   gem 'bullet'
