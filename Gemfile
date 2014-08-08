@@ -13,6 +13,9 @@ gem 'uglifier', '~> 2.5'
 gem 'coffee-rails', '~> 4.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
+gem 'execjs'
+gem 'therubyracer'
+
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 3.1'
@@ -61,6 +64,10 @@ gem 'autoprefixer-rails', '~> 2.2'
 gem 'compass-rails', '~> 2.0'
 #gem 'whenever', :require => false
 gem 'omniauth-google-oauth2', '~> 0.2'
+group :ldap do
+  gem "net-ldap" , '~> 0.3.1'
+  gem "devise_ldap_authenticatable", :git => "https://github.com/cschiewek/devise_ldap_authenticatable.git"
+end
 
 group :development do
   gem 'bullet'

@@ -4,9 +4,10 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :omniauthable
+         :confirmable, :lockable, :omniauthable, :ldap_authenticatable
   validates_presence_of :name
-  before_save :generate_gravatar
+  before_save :generate_gravatar, :get_ldap_email
+
 
   has_many :articles
   has_many :stocked_articles,
@@ -76,4 +77,8 @@ class User < ActiveRecord::Base
     end
     user
   end
+  def get_ldap_email
+
+  end
+
 end

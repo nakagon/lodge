@@ -1,6 +1,9 @@
 require 'awesome_print'
 
 class ApplicationController < ActionController::Base
+  rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
+    render :text => exception, :status => 500
+  end
   LodgeSettings = Settings.lodge
   PER_SIZE = LodgeSettings.per_size
   RIGHT_LIST_SIZE = LodgeSettings.right_list_size
