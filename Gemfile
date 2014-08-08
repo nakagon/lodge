@@ -64,13 +64,12 @@ gem 'autoprefixer-rails', '~> 2.2'
 gem 'compass-rails', '~> 2.0'
 #gem 'whenever', :require => false
 gem 'omniauth-google-oauth2', '~> 0.2'
-<<<<<<< HEAD
+gem 'carrierwave', '~> 0.10'
+gem 'jquery-fileupload-rails', '~> 0.4'
 group :ldap do
   gem "net-ldap" , '~> 0.3.1'
   gem "devise_ldap_authenticatable", :git => "https://github.com/cschiewek/devise_ldap_authenticatable.git"
 end
-gem 'carrierwave'
-gem 'jquery-fileupload-rails'
 
 ruby_versions = RUBY_VERSION.split('.')
 group :development do
