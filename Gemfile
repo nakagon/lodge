@@ -64,6 +64,7 @@ gem 'autoprefixer-rails', '~> 2.2'
 gem 'compass-rails', '~> 2.0'
 #gem 'whenever', :require => false
 gem 'omniauth-google-oauth2', '~> 0.2'
+<<<<<<< HEAD
 group :ldap do
   gem "net-ldap" , '~> 0.3.1'
   gem "devise_ldap_authenticatable", :git => "https://github.com/cschiewek/devise_ldap_authenticatable.git"
