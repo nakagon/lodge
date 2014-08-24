@@ -72,15 +72,17 @@ end
 gem 'carrierwave'
 gem 'jquery-fileupload-rails'
 
+ruby_versions = RUBY_VERSION.split('.')
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'
   gem 'letter_opener'
-  gem 'better_errors'
   gem 'binding_of_caller'
+  if ruby_versions[0].to_i >= 2 then
+    gem 'better_errors'
+  end
 end
 
-ruby_versions = RUBY_VERSION.split('.')
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-its'
