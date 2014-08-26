@@ -93,6 +93,7 @@ group :development, :test do
     gem 'pry-byebug'
   end
   gem 'pry-rescue'
+  gem 'coveralls', require: false
 end
 
 group :test do
