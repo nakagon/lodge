@@ -3,12 +3,12 @@
 # You can also just copy and paste the tree (do not include the "authorizations") to each
 # enviornment if you need something different per enviornment.
 authorizations: &AUTHORIZATIONS
-  group_base: ou=groups,dc=example,dc=com
+  group_base: ou=groups,dc=a-tm,dc=co,dc=jp
   ## Requires config.ldap_check_group_membership in devise.rb be true
   # Can have multiple values, must match all to be authorized
   required_groups:
-    - cn=Manager,ou=group,dc=example,dc=com
-    - cn=People,ou=group,dc=example,dc=com
+    - cn=Manager,ou=group,dc=a-tm,dc=co,dc=jp
+    - cn=Person,ou=group,dc=a-tm,dc=co,dc=jp
   ## Requires config.ldap_check_attributes in devise.rb to be true
   ## Can have multiple attributes and values, must match all to be authorized
   require_attribute:
@@ -18,11 +18,11 @@ authorizations: &AUTHORIZATIONS
 ## Enviornments
 
 development:
-  host: localhost
+  host: 192.168.2.221
   port: 389
-  attribute: cn
-  base: ou=People,dc=example,dc=com
-  admin_user: cn=admin,dc=example,dc=com
+  attribute: mail
+  base: ou=Person,dc=a-tm,dc=co,dc=jp
+  admin_user: cn=admin,dc=a-tm,dc=co,dc=jp
   admin_password: admin_password
   ssl: false
   # <<: *AUTHORIZATIONS
@@ -31,7 +31,7 @@ test:
   host: localhost
   port: 3389
   attribute: cn
-  base: ou=people,dc=test,dc=com
+  base: ou=Person,dc=test,dc=com
   admin_user: cn=admin,dc=test,dc=com
   admin_password: admin_password
   ssl: false
@@ -41,7 +41,7 @@ production:
   host: localhost
   port: 636
   attribute: cn
-  base: ou=people,dc=test,dc=com
+  base: ou=Person,dc=test,dc=com
   admin_user: cn=admin,dc=test,dc=com
   admin_password: admin_password
   ssl: true
