@@ -1,4 +1,6 @@
 <ul id="devise-links-area">
+
+<% unless ENV["ENABLE_LDAP"] %>
   <%- if controller_name != 'sessions' %>
     <li><%= link_to tco(:sign_in), new_session_path(resource_name) %></li>
   <% end -%>
@@ -19,3 +21,4 @@
     <li><%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %></li>
   <% end -%>
 </ul>
+<% end %>

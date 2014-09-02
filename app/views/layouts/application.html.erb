@@ -46,8 +46,10 @@
                   </ul>
                 </li>
               <% else %>
-                <li><%= link_to t("users.sign_up"), new_user_registration_path, :class => 'navbar-link'  %></li>
-                <li><span class="navbar-text">|</span></li>
+                <% unless ENV["ENABLE_LDAP"] %>
+                  <li><%= link_to t("users.sign_up"), new_user_registration_path, :class => 'navbar-link'  %></li>
+                  <li><span class="navbar-text">|</span></li>
+                <% end %>
                 <li><%= link_to t("users.login"), new_user_session_path, :class => 'navbar-link'  %></li>
               <% end %>
             </ul>

@@ -2,11 +2,18 @@ require 'digest/md5'
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :ldap_authenticatable, :registerable,
+  if ENV["ENABLE_LDAP"]
+  	devise      :ldap_authenticatable
+  	before_save :get_ldap_email
+  else
+  	devise :database_authenticatable
+  end
+  devise :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :omniauthable
+         :confirmable, :lockable, :omniauthable, :ldap_authenticatable
   validates_presence_of :email
-  before_save :generate_gravatar, :get_ldap_email
+
+  before_save :generate_gravatar
 
 
   has_many :articles
@@ -78,14 +85,11 @@ class User < ActiveRecord::Base
     user
   end
   def get_ldap_email
-    mail = Devise::LDAP::Adapter.get_ldap_param(self.email,"mail")
-    name = Devise::LDAP::Adapter.get_ldap_param(self.email, "displayName")
-    self.email = mail[0]
-    self.name  = name[0]
-    logger.debug(self.password)
+    self.email = Devise::LDAP::Adapter.get_ldap_param(self.email,"mail").first
+    self.name  = Devise::LDAP::Adapter.get_ldap_param(self.email, "displayName").first
     if self.password
  	  self.encrypted_password =  Digest::MD5.hexdigest(self.password)
-  	  self.confirmed_at = "2014-04-19 14:00:00"
+  	  self.confirmed_at = Time.now
   	end
   end
 

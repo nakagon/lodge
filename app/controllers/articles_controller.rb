@@ -3,6 +3,7 @@ class ArticlesController < ApplicationController
   before_action :set_article, only: [:show, :edit, :update, :destroy, :stock, :unstock]
   before_action :check_permission, only: [:edit, :update, :destroy]
 
+
   # GET /articles
   # GET /articles.json
   def index
@@ -26,8 +27,10 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def search
     query = "%#{params[:query].gsub(/([%_])/){"\\" + $1}}%"
-    @articles = Article.where("title like ?", query)
+    #@articles = Article.where("title like 1 OR title like 2")
+    @articles = Article.where("title like ? OR body like ?", query , query)
         .page(params[:page]).per(PER_SIZE).order(:updated_at => :desc)
+     logger.debug(@articles.to_sql)
   end
 
   # GET /articles/stocks
