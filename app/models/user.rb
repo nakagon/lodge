@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   validates_presence_of :email
 
   before_save :generate_gravatar
+  before_create :rememberable_value 
 
 
   has_many :articles
@@ -30,6 +31,10 @@ class User < ActiveRecord::Base
     :source => :notification
 
   acts_as_taggable_on :following_tags
+
+  def rememberable_value
+  	self.remember_created_at = Time.now
+  end
 
   def generate_gravatar
     self.gravatar = Digest::MD5.hexdigest(self.email)
