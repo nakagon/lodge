@@ -1,0 +1,37 @@
+<p>フォローしたタグに以下の内容が投稿されました！</p>
+
+<h2><%= @article.title %></h2>
+<br />
+
+<p><%= link_to "確認する", article_url(@article) %></p>
+
+<h3>お願い</h3>
+<p>あなたもぜひ記事を投稿してみてください！</p>
+<p>もちろん、どんな内容でも構いません！</p>
+<br />
+<p><%= link_to "投稿する", new_article_url(@article) %></p>
+
+
+<h3>新着の投稿を見る</h3>
+
+<table class="list-table table article-table">
+  <colgroup span="1"></colgroup>
+  <colgroup span="4"></colgroup>
+  <tbody>
+    <% @new_article.each do |article| %>
+      <tr>
+        <td class="article-title-column">
+          <p><%= link_to article.title, article, title: article.title %></p>
+        </td>
+        <td class="article-tags-column">
+          <% article.tags.each do |tag| %>
+            <%= link_to tagged_articles_path(tag.name), class: :tag do %>
+              <span class="label label-default"><%= tag.name %></span>
+            <% end %>
+          <% end %>
+        </td>
+        <td><%= article.updated_at.to_s(:date) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

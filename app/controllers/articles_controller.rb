@@ -30,7 +30,6 @@ class ArticlesController < ApplicationController
     #@articles = Article.where("title like 1 OR title like 2")
     @articles = Article.where("title like ? OR body like ?", query , query)
         .page(params[:page]).per(PER_SIZE).order(:updated_at => :desc)
-     logger.debug(@articles.to_sql)
   end
 
   # GET /articles/stocks
@@ -80,12 +79,16 @@ class ArticlesController < ApplicationController
   # POST /articles
   # POST /articles.json
   def create
-    @article = Article.new(article_params)
-
+    @article      = Article.new(article_params)
+    @new_articles = Article.includes(:user, :stocks, :tags).page(params[:page]).limit(RIGHT_LIST_SIZE).order(:created_at => :desc)
     respond_to do |format|
       if @article.save
         format.html { redirect_to @article, notice: 'Article was successfully created.' }
         format.json { render :show, status: :created, location: @article }
+        @tags = User.tagged_with(article_params["tag_list"], :any => true)
+        @tags.each do |u|
+          ArticleMailer.article_to_user_tag(@article , u,@new_articles).deliver
+        end
       else
         format.html { render :new }
         format.json { render json: @article.errors, status: :unprocessable_entity }
