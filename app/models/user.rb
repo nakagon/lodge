@@ -34,6 +34,11 @@ class User < ActiveRecord::Base
 
   def rememberable_value
   	self.remember_created_at = Time.now
+    nil
+  end
+
+  def remember_me
+    true
   end
 
   def generate_gravatar
