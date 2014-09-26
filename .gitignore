@@ -38,7 +38,11 @@ config/ldap.yml
 
 public/uploads/
 
+public/uploads/
+
 .env
 
 # Mac finder artifacts
 .DS_Store
+
+coverage/

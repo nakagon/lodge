@@ -48,6 +48,7 @@ gem 'foreigner', '~> 1.6'
 gem 'railroady', '~> 1.1'
 gem 'acts-as-taggable-on', '~> 3.3'
 gem 'redcarpet', '~> 3.1'
+gem 'github-markdown', '~> 0.6'
 gem 'thin', '~> 1.6'
 gem 'kaminari', '~> 0.16'
 gem 'coderay', '~> 1.1'
@@ -81,17 +82,17 @@ group :development do
   if ruby_versions[0].to_i >= 2 then
     gem 'better_errors'
   end
+  gem 'better_errors'
 end
 
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-its'
+  gem 'rspec-parameterized', github: 'tomykaira/rspec-parameterized'
   gem 'factory_girl_rails'
   gem 'pry'
   gem 'pry-rails'
-  if ruby_versions[0].to_i >= 2 then
-    gem 'pry-byebug'
-  end
+  gem 'pry-byebug'
   gem 'pry-rescue'
   gem 'coveralls', require: false
 end
