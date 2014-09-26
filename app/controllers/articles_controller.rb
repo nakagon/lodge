@@ -33,7 +33,6 @@ class ArticlesController < ApplicationController
   # GET /articles.json
   def search
     query = "%#{params[:query].gsub(/([%_])/){"\\" + $1}}%"
-    @articles = Article.where("title like ?", query)
     #@articles = Article.where("title like 1 OR title like 2")
     @articles = Article.where("title like ? OR body like ?", query , query)
         .published
