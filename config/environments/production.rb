@@ -101,4 +101,5 @@ Rails.application.configure do
     :authentication       => ENV["SMTP_AUTH_METHOD"].to_sym,
     :enable_starttls_auto => ENV["SMTP_ENABLE_STARTTLS_AUTO"],
   }
+  GA.tracker = "UA-55184135-1"
 end

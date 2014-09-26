@@ -1,6 +1,9 @@
 require 'awesome_print'
 
 class ApplicationController < ActionController::Base
+  rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
+    render :text => exception, :status => 500
+  end
   LodgeSettings = Settings.lodge
   PER_SIZE = LodgeSettings.per_size
   RIGHT_LIST_SIZE = LodgeSettings.right_list_size
@@ -12,6 +15,7 @@ class ApplicationController < ActionController::Base
   before_action :read_stocks, except: [:sign_in, :sign_up]
   before_action :read_notifications, except: [:sign_in, :sign_up]
   before_action :read_user_articles, except: [:sign_in, :sign_up]
+  before_action :read_new_articles, except: [:sign_in, :sign_up]
   before_action :read_popular_articles, except: [:sign_in, :sign_up]
   before_action :load_pre_url
   before_action :set_pre_url, except: [:new, :edit, :show, :create, :update, :destroy, :sign_up, :preview, :list]
@@ -25,6 +29,11 @@ class ApplicationController < ActionController::Base
   def read_user_articles
     return unless current_user
     @user_articles = current_user.articles.order("articles.updated_at desc").limit(RIGHT_LIST_SIZE)
+  end
+
+  def read_new_articles
+    return unless current_user
+    @new_articles = Article.includes(:user, :stocks, :tags).page(params[:page]).limit(RIGHT_LIST_SIZE).order(:created_at => :desc)
   end
 
   def read_popular_articles

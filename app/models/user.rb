@@ -2,11 +2,20 @@ require 'digest/md5'
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  if ENV["ENABLE_LDAP"]
+  	devise      :ldap_authenticatable
+  	before_save :get_ldap_email
+  else
+  	devise :database_authenticatable
+  end
+  devise :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :confirmable, :lockable, :omniauthable
-  validates_presence_of :name
+         :confirmable, :lockable, :omniauthable, :ldap_authenticatable
+  validates_presence_of :email
+
   before_save :generate_gravatar
+  before_create :rememberable_value 
+
 
   has_many :articles
   has_many :stocked_articles,
@@ -22,6 +31,15 @@ class User < ActiveRecord::Base
     :source => :notification
 
   acts_as_taggable_on :following_tags
+
+  def rememberable_value
+  	self.remember_created_at = Time.now
+    nil
+  end
+
+  def remember_me
+    true
+  end
 
   def generate_gravatar
     self.gravatar = Digest::MD5.hexdigest(self.email)
@@ -76,4 +94,13 @@ class User < ActiveRecord::Base
     end
     user
   end
+  def get_ldap_email
+    self.email = Devise::LDAP::Adapter.get_ldap_param(self.email,"mail").first
+    self.name  = Devise::LDAP::Adapter.get_ldap_param(self.email, "displayName").first
+    if self.password
+ 	  self.encrypted_password =  Digest::MD5.hexdigest(self.password)
+  	  self.confirmed_at = Time.now
+  	end
+  end
+
 end

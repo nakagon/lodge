@@ -27,6 +27,7 @@
         <div class="col-xs-8">
           <div class="row">
             <ul class="nav navbar-nav navbar-right">
+              <li><%= link_to tco('new'), new_article_path %></li>
               <% if user_signed_in? %>
                 <li class="dropdown">
                   <%= render partial: "articles/menu" %>
@@ -49,8 +50,10 @@
                   </ul>
                 </li>
               <% else %>
-                <li><%= link_to t("users.sign_up"), new_user_registration_path, :class => 'navbar-link'  %></li>
-                <li><span class="navbar-text">|</span></li>
+                <% unless ENV["ENABLE_LDAP"] %>
+                  <li><%= link_to t("users.sign_up"), new_user_registration_path, :class => 'navbar-link'  %></li>
+                  <li><span class="navbar-text">|</span></li>
+                <% end %>
                 <li><%= link_to t("users.login"), new_user_session_path, :class => 'navbar-link'  %></li>
               <% end %>
             </ul>
@@ -117,7 +120,31 @@
             </div>
   
             <hr />
-    
+   
+               <% # new article list %>
+            <h5><strong><%= tco("new_article_list_title") %></strong></h5>
+            <div>
+              <ol>
+                <% @new_articles.each do |article| %>
+                  <li>
+                    <u><%= link_to article.title, article_path(article) %></u>
+                    <% article.tags.each do |tag| %>
+                      <%= link_to tagged_articles_path(tag.name), class: :tag do %>
+                        <span class="label label-default"><%= tag.name %></span>
+                      <% end %>
+                    <% end %>
+                  </li>
+                <% end %>
+                <% unless @new_articles.empty? %>
+                <div class="clearfix">
+                  <%= link_to tco("more_display"), articles_path, class: ["pull-right"] %> 
+                </div>
+                <% end %>
+              </ol>
+            </div>
+  
+            <hr />
+
             <% # Pupular article list %>
             <h5><strong><%= tco("popular_article_list_title") %></strong></h5>
             <div>
@@ -172,5 +199,6 @@
   </div>
 </div>
 
+    <%= analytics_init %>
 </body>
 </html>

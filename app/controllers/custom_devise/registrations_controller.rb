@@ -1,6 +1,11 @@
 class CustomDevise::RegistrationsController < Devise::RegistrationsController
   before_action :customize_sign_up_params, only: [:create, :update]
 
+  def create
+    params[:user].merge!(remember_me: true)
+    super
+  end
+
   def destroy
     @user.lock_access!
     redirect_to root_path

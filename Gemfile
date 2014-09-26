@@ -13,6 +13,9 @@ gem 'uglifier', '~> 2.5'
 gem 'coffee-rails', '~> 4.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
+gem 'execjs'
+gem 'therubyracer'
+
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails', '~> 3.1'
@@ -64,12 +67,21 @@ gem 'compass-rails', '~> 2.0'
 gem 'omniauth-google-oauth2', '~> 0.2'
 gem 'carrierwave', '~> 0.10'
 gem 'jquery-fileupload-rails', '~> 0.4'
+group :ldap do
+  gem "net-ldap" , '~> 0.3.1'
+  gem "devise_ldap_authenticatable", :git => "https://github.com/cschiewek/devise_ldap_authenticatable.git"
+end
+gem 'google-analytics-rails'
 
+ruby_versions = RUBY_VERSION.split('.')
 group :development do
   gem 'bullet'
   gem 'rack-mini-profiler'
   gem 'letter_opener'
   gem 'binding_of_caller'
+  if ruby_versions[0].to_i >= 2 then
+    gem 'better_errors'
+  end
   gem 'better_errors'
 end
 

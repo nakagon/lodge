@@ -35,6 +35,7 @@ class Article < ActiveRecord::Base
   def save
     begin
       __save
+      # ArticleMailer.welcome_email(@user).deliver
     rescue ActiveRecord::StaleObjectError
       errors.add :lock_version, :article_already_updated
       false
